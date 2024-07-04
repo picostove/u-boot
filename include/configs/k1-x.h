@@ -84,11 +84,6 @@
 #define TLV_CODE_EEPROM_I2C_INDEX	0x81
 #define TLV_CODE_EEPROM_PIN_GROUP	0x82
 
-// #define RAMDISK_LOAD_ADDR		(CONFIG_FASTBOOT_BUF_ADDR + CONFIG_FASTBOOT_BUF_SIZE)
-// #define DTB_LOAD_ADDR		(CONFIG_FASTBOOT_BUF_ADDR + CONFIG_FASTBOOT_BUF_SIZE * 2)
-#define RAMDISK_LOAD_ADDR		0x21000000
-#define DTB_LOAD_ADDR			0x31000000
-
 #ifndef __ASSEMBLY__
 #include "linux/types.h"
 
@@ -135,9 +130,13 @@ struct boot_storage_op
 #define BOOTFS_NAME	("bootfs")
 
 /* Environment options */
-
 #define BOOT_TARGET_DEVICES(func) \
 	func(QEMU, qemu, na)
+
+#define KERNEL_ADDR_R		__stringify(0x10000000)
+#define RAMDISK_ADDR_R		__stringify(0x21000000)
+#define FDT_ADDR_R		__stringify(0x31000000)
+#define FDTOVERLAY_ADDR_R	__stringify(0x01000000)
 
 #include <config_distro_bootcmd.h>
 
@@ -164,11 +163,6 @@ struct boot_storage_op
 /*if env not use for spl, please define to board/spacemit/k1-x/k1-x.env */
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	"stdout_flash=serial,vidconsole\0" \
-	"kernel_comp_addr_r=" __stringify(CONFIG_SYS_LOAD_ADDR) "\0" \
-	"kernel_comp_size=" __stringify(CONFIG_FASTBOOT_BUF_SIZE) "\0" \
-	"kernel_addr_r=" __stringify(CONFIG_FASTBOOT_BUF_ADDR) "\0" \
-	"ramdisk_addr=" __stringify(RAMDISK_LOAD_ADDR) "\0" \
-	"dtb_addr=" __stringify(DTB_LOAD_ADDR) "\0" \
 	"scriptaddr=0x2c100000\0" \
 	"pxefile_addr_r=0x0c200000\0" \
 	"ipaddr=192.168.1.15\0" \
@@ -176,10 +170,11 @@ struct boot_storage_op
 	"serverip=10.0.92.134\0" \
 	"gatewayip=192.168.1.1\0" \
 	"net_data_path=spacemit_flash_file/net_flash_file/\0" \
-	"splashimage=" __stringify(CONFIG_FASTBOOT_BUF_ADDR) "\0" \
-	"splashpos=m,m\0" \
-	"splashfile=bianbu.bmp\0" \
+	"fdt_addr_r=" FDT_ADDR_R "\0" \
+	"kernel_addr_r=" KERNEL_ADDR_R "\0" \
+	"ramdisk_addr_r=" RAMDISK_ADDR_R "\0" \
+	"fdtoverlay_addr_r=" FDTOVERLAY_ADDR_R "\0" \
+	"fdtfile=spacemit/" CONFIG_DEFAULT_DEVICE_TREE ".dtb\0" \
 	BOOTENV_DEVICE_CONFIG
-
 
 #endif /* __CONFIG_H */

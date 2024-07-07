@@ -174,7 +174,7 @@ struct boot_storage_op
 	"kernel_addr_r=" KERNEL_ADDR_R "\0" \
 	"ramdisk_addr_r=" RAMDISK_ADDR_R "\0" \
 	"fdtoverlay_addr_r=" FDTOVERLAY_ADDR_R "\0" \
-	"fdtfile=spacemit/" CONFIG_DEFAULT_DEVICE_TREE ".dtb\0" \
+	"fdtfile=spacemit/k1-x_deb1.dtb\0" \
 	BOOTENV_DEVICE_CONFIG
 
 #endif /* __CONFIG_H */
